@@ -1,6 +1,5 @@
 /*
  * Analytics Online Coding Challenge
- * Author: Paul Senatillaka > paulsena@gmail.com
  * Date: 6/11/2015
  * 
  * Parses two tab delimited files and answers:
