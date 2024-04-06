@@ -23,33 +23,4 @@ class Solution {
             return new ListNode(list1.val, mergeTwoLists(list1.next, list2));
         }
     }
-
-    /**
-            ListNode result = new ListNode();
-        ListNode lastNode = new ListNode(); 
-
-
-        while (list1 != null && list2 != null) {
-            ListNode node = new ListNode();
-
-            // if (list1 == null && list2 != null) {
-            //     result.add(list2);
-            //     list2 = list2.next;
-            // } else if (list2 == null && list1 != null) {
-            //     result.add(list1);
-            //     list1 = list1.next;
-            // } else 
-            if (list1.val < list2.val || list1.val == list2.val) {
-                node.val = list1.val;
-                node.next = lastNode;
-                result.add(node);
-                list1 = list1.next;
-            } else {
-                result.add(list2);
-                list2 = list2.next  
-            }
-        }
-
-        return result;
-     */
 }
