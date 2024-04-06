@@ -7,11 +7,11 @@ class Solution {
         while (i <= j) {
             char firstVal = s.charAt(i);
             char lastVal = s.charAt(j);
-            if (!isAlphaNumeric(firstVal)) {
+            if (!Character.isLetterOrDigit(firstVal)) {
                 i++;
                 continue;
             }
-            if (!isAlphaNumeric(lastVal)) {
+            if (!Character.isLetterOrDigit(lastVal)) {
                 j--;
                 continue;
             }
@@ -21,12 +21,5 @@ class Solution {
             i++; j--;
         }
         return true;
-    }
-
-    static private boolean isAlphaNumeric(char c) {
-        if ((c >= 97 && c <= 122) || (c >= 48 && c <= 57)) {
-            return true;
-        }
-        return false;
     }
 }
