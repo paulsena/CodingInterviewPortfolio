@@ -1,20 +1,25 @@
-import java.util.Arrays;
-
 class Solution {
     public int[] twoSum(int[] nums, int target) {
+        Map<Integer, Integer> complMap = new HashMap<>(nums.length);
 
-        Map<Integer,Integer> numMap = new HashMap(nums.length);
-        
         for (int i = 0; i < nums.length; i++) {
-            int compliment = target - nums[i];
-
-            if (numMap.containsKey(compliment) && numMap.get(compliment) != i) {
-                return new int[]{i, numMap.get(compliment)};
+            int compl = target - nums[i];
+            Integer complIdx = complMap.get(compl);
+            
+            if (complIdx != null) {
+                return new int[] {i, complIdx};
             }
-
-            numMap.put(nums[i], i);
-
+            
+            complMap.put(nums[i], i);
         }
-        return null;
+ 
+        return new int[0];
     }
 }
+
+
+/**
+[2,7,11,15]
+    Comp 7 
+    
+ */
