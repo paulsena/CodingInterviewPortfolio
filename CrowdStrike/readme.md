@@ -100,7 +100,7 @@ If you have any questions at all, please feel free to ask!
 
 ## Overall Design:
 
-![cd8806186af31b8824cbc5299cfc86cb.png](../../_resources/cd8806186af31b8824cbc5299cfc86cb.png)
+![cd8806186af31b8824cbc5299cfc86cb.png](/_resources/cd8806186af31b8824cbc5299cfc86cb.png)
 
 &nbsp;
 
@@ -166,7 +166,7 @@ Tech:
     - Can add a framework like MinIO if want to swap out file hosting solution (ie self hosted). Exposes same S3 APIs so seemless integration.
     - ### AWS MultiPart S3 Uploading Sequence Diagram:
         
-        <img src="../../_resources/1fa826cf67940ca5584a404a1d78c356.png" alt="drawing" width="500" class="jop-noMdConv">
+        <img src="/_resources/1fa826cf67940ca5584a404a1d78c356.png" alt="drawing" width="500" class="jop-noMdConv">
 - File Report WS
     
     - Retrieves processed scan report
