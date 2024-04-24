@@ -1,24 +1,31 @@
 # VirusTotal Design Project
 
-- [The System Design Problem](#The-Problem)
-- [Overall Design:](#overall-design)
-- [Component Summary:](#component-summary)
-- [Client Website:](#client-website)
-- [Web Service:](#web-service)
-- [File Storage:](#file-storage)
-- [Database:](#database)
-- [Caching:](#caching)
-- [Error Handling:](#error-handling)
-- [Observability:](#observability)
-- [WS Schema:](#ws-schema)
-    - [Submit a file](#submit-a-file)
-    - [HTTP POST](#http-post)
-- [Scaling:](#scaling)
+<!-- TOC start (generated with https://github.com/derlin/bitdowntoc) -->
 
-* * *
+   * [The System Design Problem:](#the-system-design-problem)
+- [My solution:](#my-solution)
+   * [Overall Design:](#overall-design)
+   * [Component Summary:](#component-summary)
+   * [Client Website:](#client-website)
+   * [Web Service:](#web-service)
+   * [WS Schema:](#ws-schema)
+      + [1) Submit a file](#1-submit-a-file)
+      + [2) Upload a file directly to AWS S3 through provisioned url](#2-upload-a-file-directly-to-aws-s3-through-provisioned-url)
+      + [3) Get a file scan report summary](#3-get-a-file-scan-report-summary)
+      + [4) Rescan a file already submitted  ](#4-rescan-a-file-already-submitted)
+   * [File Storage AWS S3:](#file-storage-aws-s3)
+   * [Database:](#database)
+   * [Caching:](#caching)
+   * [Error Handling:](#error-handling)
+   * [Observability:](#observability)
+   * [Scaling:](#scaling)
+
+<!-- TOC end -->
+
 
 &nbsp;
 
+<!-- TOC --><a name="the-system-design-problem"></a>
 ## The System Design Problem:
 
 This “whiteboard” project will be building a “VirusTotal” clone. This is a hypothetical design project that requires you to consider real world distributed systems challenges based on a publicly available product. You can read up more about VirusTotal by visiting their website at https://www.virustotal.com and going to **About Us > How it works**. You are also encouraged to try the system out by uploading a file so that you can get a feel for the end-user experience.
@@ -93,17 +100,20 @@ If you have any questions at all, please feel free to ask!
 
 &nbsp;
 
+<!-- TOC --><a name="my-solution"></a>
 # My solution:
 - Written by Paul Senatillaka
 
 &nbsp;
 
+<!-- TOC --><a name="overall-design"></a>
 ## Overall Design:
 
 ![cd8806186af31b8824cbc5299cfc86cb.png](./_resources/cd8806186af31b8824cbc5299cfc86cb.png)
 
 &nbsp;
 
+<!-- TOC --><a name="component-summary"></a>
 ## Component Summary:
 
 - Load Balancer
@@ -135,6 +145,7 @@ If you have any questions at all, please feel free to ask!
 
 &nbsp;
 
+<!-- TOC --><a name="client-website"></a>
 ## Client Website:
 
 Func Specs:
@@ -150,6 +161,7 @@ Tech:
 
 &nbsp;
 
+<!-- TOC --><a name="web-service"></a>
 ## Web Service:
 
 - File Upload Start WS
@@ -178,8 +190,10 @@ Tech:
 
 &nbsp;
 
+<!-- TOC --><a name="ws-schema"></a>
 ## WS Schema:
 
+<!-- TOC --><a name="1-submit-a-file"></a>
 ### 1) Submit a file
 
 `/api/v1/scanner/file`
@@ -211,9 +225,11 @@ Tech:
 500 - Server side unexpected errors
 
 
+<!-- TOC --><a name="2-upload-a-file-directly-to-aws-s3-through-provisioned-url"></a>
 ### 2) Upload a file directly to AWS S3 through provisioned url
 https://docs.aws.amazon.com/AmazonS3/latest/userguide/PresignedUrlUploadObject.html
 
+<!-- TOC --><a name="3-get-a-file-scan-report-summary"></a>
 ### 3) Get a file scan report summary
 
 **HTTP GET Request:**
@@ -251,6 +267,7 @@ https://docs.aws.amazon.com/AmazonS3/latest/userguide/PresignedUrlUploadObject.h
 **HTTP Error Response:**
 HTTP 400 - File not found
 
+<!-- TOC --><a name="4-rescan-a-file-already-submitted"></a>
 ### 4) Rescan a file already submitted  
 
 **HTTP POST Request**
@@ -258,6 +275,7 @@ HTTP 400 - File not found
 This should be privaleged or heavily rate limited to avoid excessive load on the system.
 
 
+<!-- TOC --><a name="file-storage-aws-s3"></a>
 ## File Storage AWS S3:
 
 - Use AWS S3 buckets. Cheap distributed storage, offers recovery, and scaling
@@ -268,6 +286,7 @@ This should be privaleged or heavily rate limited to avoid excessive load on the
 
 &nbsp;
 
+<!-- TOC --><a name="database"></a>
 ## Database:
 
 - Could be RDBMS but don't have lots of complicated joins
@@ -297,6 +316,7 @@ This should be privaleged or heavily rate limited to avoid excessive load on the
 
 **Sharding Key: file_hash**
 
+<!-- TOC --><a name="caching"></a>
 ## Caching:
 
 - Caching to store commonly read / recent database file report metadata
@@ -308,6 +328,7 @@ This should be privaleged or heavily rate limited to avoid excessive load on the
 
 &nbsp;
 
+<!-- TOC --><a name="error-handling"></a>
 ## Error Handling:
 
 - Worker retry logic - Resubmit to queue limited number of times. Metadata in queue object keeps track of count.
@@ -316,6 +337,7 @@ This should be privaleged or heavily rate limited to avoid excessive load on the
 
 &nbsp;
 
+<!-- TOC --><a name="observability"></a>
 ## Observability:
 
 - Real time metrics
@@ -328,6 +350,7 @@ This should be privaleged or heavily rate limited to avoid excessive load on the
 Sample ELK Observability dashboard for Kubernetes  
 <img src="https://images.contentstack.io/v3/assets/bltefdd0b53724fa2ce/bltbf6c61898c36edc3/5f03d0f247a7792c2951c29d/blog-k8s-o11y-metrics-host.jpg" alt="drawing" width="800" class="jop-noMdConv">
 
+<!-- TOC --><a name="scaling"></a>
 ## Scaling:
 
 - Add Web servers
@@ -340,4 +363,3 @@ Sample ELK Observability dashboard for Kubernetes
     - General rate limit that can scale with system resources (worker nodes)
     - Cache of queued user id / ip. Worker removes. Longer TTL
 - Bot detection
-
